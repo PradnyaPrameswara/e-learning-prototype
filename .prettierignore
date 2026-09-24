@@ -1,0 +1,14 @@
+node_modules/
+**/node_modules/
+.git/
+.turbo/
+dist/
+**/dist/
+.astro/
+**/.astro/
+coverage/
+pnpm-lock.yaml
+apps/worker/worker-configuration.d.ts
+packages/database/src/database.types.ts
+docs/architecture/
+docs/planning/

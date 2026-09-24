@@ -1,0 +1,20 @@
+{
+  "name": "@lms/worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --local --ip 127.0.0.1 --port 8787",
+    "build": "node scripts/run-wrangler.mjs build",
+    "lint": "eslint --config ../../eslint.config.mjs .",
+    "typegen": "node scripts/run-wrangler.mjs types",
+    "typecheck": "node scripts/run-wrangler.mjs types && tsc --noEmit",
+    "test": "node scripts/run-vitest.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "catalog:",
+    "@lms/config": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "wrangler": "catalog:"
+  }
+}

@@ -1,0 +1,32 @@
+# Dependencies and build output
+node_modules/
+**/node_modules/
+.pnpm-store/
+.turbo/
+dist/
+**/dist/
+.astro/
+**/.astro/
+coverage/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.wrangler/
+apps/worker/worker-configuration.d.ts
+
+# Supabase local state and generated secrets
+supabase/.temp/
+supabase/.branches/
+supabase/.env
+
+# Editor and operating system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

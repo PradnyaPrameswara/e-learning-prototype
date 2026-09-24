@@ -1,0 +1,5 @@
+{
+  "name": "@lms/database",
+  "private": true,
+  "type": "module"
+}

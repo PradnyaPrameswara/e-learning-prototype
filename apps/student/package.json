@@ -1,0 +1,24 @@
+{
+  "name": "@lms/student",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0 --port 4321",
+    "build": "astro build",
+    "lint": "eslint --config ../../eslint.config.mjs .",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@lms/config": "workspace:*",
+    "@lms/ui": "workspace:*",
+    "@astrojs/react": "catalog:",
+    "astro": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@astrojs/check": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "tailwindcss": "catalog:"
+  }
+}

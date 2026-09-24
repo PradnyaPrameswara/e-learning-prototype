@@ -1,0 +1,11 @@
+{
+  "name": "@lms/ui",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./styles.css": "./src/styles.css"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ]
+}

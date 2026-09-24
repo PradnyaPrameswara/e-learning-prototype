@@ -1,0 +1,4 @@
+{
+  "extends": "@lms/config/tsconfig/worker.json",
+  "include": ["src/**/*.ts", "worker-configuration.d.ts", "vitest.config.ts"]
+}
