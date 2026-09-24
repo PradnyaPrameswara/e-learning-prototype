@@ -69,4 +69,31 @@ describe('Worker foundation', () => {
       error: 'method_not_allowed',
     });
   });
+
+  it('requires authentication for Lesson lifecycle routes', async () => {
+    const result = await SELF.fetch(
+      'https://worker.test/v1/lessons/70000000-0000-4000-8000-000000000001/publish',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}',
+      },
+    );
+    const body: unknown = await result.json();
+
+    expect(result.status).toBe(401);
+    expect(body).toMatchObject({ error: 'unauthenticated' });
+    expect(JSON.stringify(body)).not.toContain('SUPABASE_SERVICE_ROLE_KEY');
+  });
+
+  it('does not accept lifecycle operations over unsupported methods', async () => {
+    const result = await SELF.fetch(
+      'https://worker.test/v1/lessons/70000000-0000-4000-8000-000000000001/publish',
+    );
+
+    expect(result.status).toBe(405);
+    await expect(result.json()).resolves.toMatchObject({
+      error: 'method_not_allowed',
+    });
+  });
 });

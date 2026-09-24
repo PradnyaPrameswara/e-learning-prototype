@@ -66,8 +66,11 @@ Direct browser access is allowed only where grants and RLS fully express the com
 | Read enrolled Courses | Student | Yes | No | No | Membership active and enrollment to Course class/year |
 | Read published Lessons | Student | Yes | No | No | Same enrollment plus published status; no draft content |
 | Read assigned Courses | Teacher | Yes | No | No | Active Teacher role and explicit assignment |
-| Lesson draft CRUD | Assigned Teacher | Yes, if policy-tested | Optional | Only if a multi-row publish/audit action is added | RLS checks active assignment and draft ownership/state; no client privilege |
-| Publish/archive Lesson | Assigned Teacher | Yes, if the transition is one-row and policy-tested | No | No | RLS requires active assignment and a valid state transition; published Student reads remain enrollment-scoped |
+| Lesson draft title/content CRUD | Assigned Teacher | Yes, if policy-tested | No | No for individual draft edits | RLS requires active membership, Teacher role, exact Course assignment and draft state; database constraints bind rows to the same School/Course |
+| Change Lesson sequence position | Assigned Teacher | Yes, under RLS | No | Optional atomic full-list reorder function | RLS requires active assignment and non-archived Lesson; unique Course/position index prevents ambiguity |
+| Reorder Lesson blocks | Assigned Teacher | Yes, through an invoker-rights RLS-scoped function | No | Yes | Complete draft block ID set is validated and reordered atomically without bypassing caller RLS |
+| Publish/unpublish/archive Lesson | Assigned Teacher | No | Yes | Yes, named service-role-only RPC | Worker verifies caller access under RLS; RPC rechecks current Teacher assignment and commits state plus audit in one transaction |
+| Read Lesson media metadata | Teacher/Student/Admin | No | No in this phase | No | No browser grants/policies; metadata remains behind the future Worker-authorized R2 flow |
 | Read school structure | Admin | Yes, scoped | No | No | Read-only school membership policy |
 | Create/edit/archive school academic structure | Admin | No | Yes | Yes where constraints or audit span rows | Trusted school-scoped admin operation; database checks parent ownership and appends required audit |
 | Admin user/account/membership management | Admin | No | Yes | Yes for atomic school status + audit; Auth Admin only if needed | Privileged identity operation; never accept requested role as authority |
@@ -117,7 +120,7 @@ Policy predicates use auth.uid() and relational ownership checks:
 
 - **School isolation:** each read/write row must have a current active school_membership for the same school and the required role.
 - **Teacher assignment:** Course-owned write/read rows require active Teacher role plus active teacher_assignment for that exact Course.
-- **Lesson lifecycle:** Lesson row updates require active Teacher role plus active assignment to the exact Course; Student reads require published status and active enrollment. If publish later spans required audit/media checks, move that transition to Worker/RPC before adding those behaviors.
+- **Lesson lifecycle:** Draft title/content changes require active Teacher role plus active assignment to the exact Course and a draft parent. Student reads require published status and active enrollment. Publish, unpublish and archive are Worker-only named RPC operations; each rechecks the actor and atomically records its audit event. Published Lesson titles and block content cannot be edited directly; assigned Teachers may still change Course sequence order. Lesson media metadata has no browser policy or grant in this phase.
 - **Student enrollment:** Course reads require active Student role plus active class/year enrollment matching the Course.
 - **Own Attempt:** Attempt and answer reads require student_membership.user_id = auth.uid(); no policy allows reading another Student's rows.
 - **Published content:** Student policies require Lesson published; Assessment/question projections reference the current published version and eligibility. Drafts and mutable authoring tables are Teacher-only.

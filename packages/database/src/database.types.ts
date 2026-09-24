@@ -209,6 +209,167 @@ export type Database = {
           },
         ]
       }
+      lesson_blocks: {
+        Row: {
+          block_type: string
+          course_id: string
+          created_at: string
+          id: string
+          lesson_id: string
+          media_asset_id: string | null
+          payload: Json
+          position: number
+          school_id: string
+          updated_at: string
+        }
+        Insert: {
+          block_type: string
+          course_id: string
+          created_at?: string
+          id?: string
+          lesson_id: string
+          media_asset_id?: string | null
+          payload: Json
+          position: number
+          school_id: string
+          updated_at?: string
+        }
+        Update: {
+          block_type?: string
+          course_id?: string
+          created_at?: string
+          id?: string
+          lesson_id?: string
+          media_asset_id?: string | null
+          payload?: Json
+          position?: number
+          school_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_blocks_school_id_course_id_lesson_id_fkey"
+            columns: ["school_id", "course_id", "lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["school_id", "course_id", "id"]
+          },
+          {
+            foreignKeyName: "lesson_blocks_school_id_course_id_media_asset_id_fkey"
+            columns: ["school_id", "course_id", "media_asset_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["school_id", "course_id", "id"]
+          },
+        ]
+      }
+      lessons: {
+        Row: {
+          course_id: string
+          created_at: string
+          id: string
+          position: number
+          published_at: string | null
+          school_id: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          id?: string
+          position: number
+          published_at?: string | null
+          school_id: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          id?: string
+          position?: number
+          published_at?: string | null
+          school_id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lessons_school_id_course_id_fkey"
+            columns: ["school_id", "course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["school_id", "id"]
+          },
+        ]
+      }
+      media_assets: {
+        Row: {
+          byte_size: number
+          checksum: string | null
+          content_type: string
+          course_id: string
+          created_at: string
+          id: string
+          object_key: string
+          original_display_name: string
+          purpose: string
+          school_id: string
+          status: string
+          updated_at: string
+          uploader_membership_id: string
+        }
+        Insert: {
+          byte_size: number
+          checksum?: string | null
+          content_type: string
+          course_id: string
+          created_at?: string
+          id?: string
+          object_key: string
+          original_display_name: string
+          purpose: string
+          school_id: string
+          status?: string
+          updated_at?: string
+          uploader_membership_id: string
+        }
+        Update: {
+          byte_size?: number
+          checksum?: string | null
+          content_type?: string
+          course_id?: string
+          created_at?: string
+          id?: string
+          object_key?: string
+          original_display_name?: string
+          purpose?: string
+          school_id?: string
+          status?: string
+          updated_at?: string
+          uploader_membership_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_assets_school_id_course_id_fkey"
+            columns: ["school_id", "course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["school_id", "id"]
+          },
+          {
+            foreignKeyName: "media_assets_school_id_uploader_membership_id_fkey"
+            columns: ["school_id", "uploader_membership_id"]
+            isOneToOne: false
+            referencedRelation: "school_memberships"
+            referencedColumns: ["school_id", "id"]
+          },
+        ]
+      }
       membership_roles: {
         Row: {
           created_at: string
@@ -619,6 +780,38 @@ export type Database = {
           p_enrollment_id: string
           p_request_id?: string
           p_school_id: string
+        }
+        Returns: string
+      }
+      reorder_lesson_blocks: {
+        Args: { p_block_ids: string[]; p_lesson_id: string }
+        Returns: number
+      }
+      reorder_lessons: {
+        Args: { p_course_id: string; p_lesson_ids: string[] }
+        Returns: number
+      }
+      teacher_archive_lesson: {
+        Args: {
+          p_actor_user_id: string
+          p_lesson_id: string
+          p_request_id?: string
+        }
+        Returns: string
+      }
+      teacher_publish_lesson: {
+        Args: {
+          p_actor_user_id: string
+          p_lesson_id: string
+          p_request_id?: string
+        }
+        Returns: string
+      }
+      teacher_unpublish_lesson: {
+        Args: {
+          p_actor_user_id: string
+          p_lesson_id: string
+          p_request_id?: string
         }
         Returns: string
       }

@@ -14,14 +14,8 @@ import {
 } from '@lms/schemas/identity';
 import { z } from 'zod';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-
-export interface Env {
-  FILES_BUCKET: R2Bucket;
-  APP_ORIGINS?: string;
-  SUPABASE_PUBLISHABLE_KEY?: string;
-  SUPABASE_SERVICE_ROLE_KEY?: string;
-  SUPABASE_URL?: string;
-}
+import type { Env } from './env';
+import { handleLessonRoute } from './routes/lessons';
 
 const jsonHeaders = {
   'content-type': 'application/json; charset=utf-8',
@@ -448,6 +442,20 @@ export default {
           return methodNotAllowed(requestId, origin);
         return response({ status: 'ok', requestId }, 200, requestId, origin);
       }
+
+      const lessonResponse = await handleLessonRoute(
+        request,
+        env,
+        requestId,
+        origin,
+        {
+          authenticate,
+          boundedJson,
+          createAdminSupabaseClient,
+          response,
+        },
+      );
+      if (lessonResponse) return lessonResponse;
 
       if (url.pathname === '/v1/admin/academic-years') {
         if (request.method !== 'POST')

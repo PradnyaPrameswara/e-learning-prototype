@@ -25,6 +25,11 @@ Frontend implementation rules:
 - Never call first-party React `useEffect` directly or hide it in a custom hook.
 - Do not add legacy implementations or compatibility layers without an explicit current requirement.
 
+Frontend visual reference:
+
+- `PradnyaPrameswara/E-learning_Landing-Page` (<https://github.com/PradnyaPrameswara/E-learning_Landing-Page>) is the future visual/design and project-owned asset reference for typography, color, spacing, layouts, and reusable design patterns.
+- It is not authoritative for this repository's architecture, dependencies, backend, domain logic, security, database, or deployment. The destination repository's contracts take precedence; do not copy the template wholesale.
+
 ## Git workflow
 
 Use `issue → dedicated branch → implementation → validation → PR → human review and merge`. Keep one coherent issue per branch. Do not commit unfinished work, mix unrelated refactors, enable auto-merge, or merge on the user's behalf. Architecture changes require an ADR and planning-contract update before implementation. Keep secrets out of Git and version-control migrations.
