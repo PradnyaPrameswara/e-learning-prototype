@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
-    "lint": "eslint --config eslint.config.mjs scripts && turbo run lint",
+    "lint": "eslint --config eslint.config.mjs scripts && pnpm lint:anti-slop && turbo run lint",
+    "lint:anti-slop": "oxlint apps packages scripts",
     "typecheck": "turbo run typecheck",
     "test": "node --test scripts/check-constraints.test.mjs && turbo run test",
     "check:constraints": "node scripts/check-constraints.mjs",
@@ -31,6 +32,8 @@
     "prettier": "catalog:",
     "prettier-plugin-astro": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",
+    "@oxlint/plugins": "catalog:",
+    "oxlint": "catalog:",
     "supabase": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:"

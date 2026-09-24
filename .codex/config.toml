@@ -1,0 +1,10 @@
+[mcp_servers.codedb_elearning]
+command = "powershell.exe"
+args = ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "scripts/tooling/launch-codedb-mcp.ps1"]
+cwd = "."
+env = { CODEDB_LAZY_MCP = "1", CODEDB_NO_TELEMETRY = "1", CODEDB_NO_AUTO_SEMANTIC_MIGRATION = "1", CODEDB_MCP_LEAN = "1" }
+
+[mcp_servers.lexa_elearning]
+command = "powershell.exe"
+args = ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "scripts/tooling/launch-lexa-mcp.ps1"]
+cwd = "."

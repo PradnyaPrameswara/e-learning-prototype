@@ -7,6 +7,9 @@ dist/
 .astro/
 **/.astro/
 coverage/
+.agents/
+.codex/
+tools/oxlint/anti-slop/**
 pnpm-lock.yaml
 apps/worker/worker-configuration.d.ts
 packages/database/src/database.types.ts

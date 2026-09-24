@@ -8,6 +8,9 @@ dist/
 .astro/
 **/.astro/
 coverage/
+.tools/
+.codedb/
+.lexa/
 
 # Local configuration and credentials
 .env
