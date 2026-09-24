@@ -16,6 +16,17 @@ Read `docs/planning/PLANNING_CONTRACT.md` and the relevant files in `docs/archit
 
 Preserve the Astro-first, selective React-island architecture, strict TypeScript, Tailwind CSS 4, TanStack Form, Zod, non-Radix shadcn/ui, and the TypeScript Cloudflare Worker. Do not use direct first-party React `useEffect`, React Hook Form, Formik, app-to-app imports, or `@radix-ui/*`. Supabase Auth, PostgreSQL RLS, and private Cloudflare R2 remain the active platform decisions. Do not add Laravel, Go, Rust, Redis, Kafka, Kubernetes, or another backend without an approved architecture change.
 
+Frontend implementation rules:
+
+- Astro-first; use React only for genuine interactive islands.
+- Use TypeScript for application code and Tailwind CSS for styling.
+- Shared shadcn/ui components belong in `packages/ui`; use approved non-Radix primitives only.
+- Never add `@radix-ui/*`, React Hook Form, or Formik.
+- Never call first-party React `useEffect` directly or hide it in a custom hook.
+- Do not add legacy implementations or compatibility layers without an explicit current requirement.
+
 ## Git workflow
 
 Use `issue → dedicated branch → implementation → validation → PR → human review and merge`. Keep one coherent issue per branch. Do not commit unfinished work, mix unrelated refactors, enable auto-merge, or merge on the user's behalf. Architecture changes require an ADR and planning-contract update before implementation. Keep secrets out of Git and version-control migrations.
+
+Never auto-merge or merge on the user's behalf. Never add `Co-authored-by:` or other AI attribution trailers to commits.

@@ -44,7 +44,7 @@ const outputPath = path.join(
   'database.types.ts',
 );
 mkdirSync(path.dirname(outputPath), { recursive: true });
-writeFileSync(outputPath, result.stdout, 'utf8');
+writeFileSync(outputPath, `${result.stdout.trimEnd()}\n`, 'utf8');
 console.log(
   `Generated ${path.relative(root, outputPath)} from local Supabase schema.`,
 );

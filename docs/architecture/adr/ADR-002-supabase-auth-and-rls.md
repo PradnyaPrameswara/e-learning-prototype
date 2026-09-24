@@ -14,7 +14,7 @@ Use Supabase Auth as the sole authentication provider. Map the Supabase Auth use
 
 Use verified Supabase sessions for Astro applications and Supabase bearer access tokens to authenticate Worker API requests. Worker validates token signature/issuer/audience/expiry and reloads current membership/role/scope from PostgreSQL. Supabase JWT role claims may identify the database API role, but application roles are resolved from current protected membership rows.
 
-Require PostgreSQL RLS and least-privilege grants for browser-accessible records. Worker performs trusted authorization for privileged actions; transactional database functions recheck ownership and state. Use user JWT/RLS context for user-owned operations where practical. Keep service-role credentials server-only and restrict them to narrow administrative Auth operations that cannot use user authority, with independent authorization and audit.
+Require PostgreSQL RLS and least-privilege grants for browser-accessible records. Worker performs trusted authorization for privileged actions; transactional database functions recheck ownership and state. Use user JWT/RLS context for user-owned operations where practical. Keep service-role credentials server-only and restrict them to narrow administrative Auth operations and explicitly named Worker-only transaction RPCs that enforce a route boundary, with current actor authorization checked before invocation and again inside the transaction. Never use a service client for general user-data queries or writes. See [ADR-006](ADR-006-worker-only-identity-transaction-rpcs.md) for the Identity-phase resolution.
 
 ## Alternatives considered
 
@@ -35,7 +35,7 @@ Rejected for privileged Auth APIs and multi-step/transactional workflows; author
 - Every protected request must evaluate current membership and resource scope.
 - SSR auth refresh, cookie security, CSRF and cache behavior require integration tests.
 - RLS policies, grants, functions and views must be tested with representative authenticated users and denial cases.
-- The Worker must not use a broadly privileged credential as a shortcut around per-user authorization.
+- The Worker must not use a broadly privileged credential as a shortcut around per-user authorization. The narrowly scoped Worker-only RPC exception requires an explicit route-level check, database actor recheck, execution grants limited to named functions, and an audit event in the same transaction.
 - Disabling a school membership revokes school capabilities based on current database state without necessarily banning the Auth identity from every other school.
 
 ## Revisit triggers

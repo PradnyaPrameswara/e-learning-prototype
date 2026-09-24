@@ -1,3 +1,3 @@
 # `@lms/schemas`
 
-Future owner of shared Zod transport schemas and safe request/response contracts. No schema is created before a real consumer exists. TanStack Form and frontend Zod validation are planned for interactive forms; server authorization and validation remain authoritative.
+Shared Zod request/response schemas for real app-to-Worker contracts. Schemas validate input shape for usable errors; Worker authorization, database constraints, and transactional operations remain authoritative.
