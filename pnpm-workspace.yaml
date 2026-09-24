@@ -36,3 +36,8 @@ catalog:
 minimumReleaseAgeExclude:
   - '@cloudflare/vitest-plugin@1.2.4'
   - wrangler@4.137.0
+
+allowBuilds:
+  esbuild@0.28.1: true
+  esbuild@0.28.2: true
+  workerd@1.20260921.1: true

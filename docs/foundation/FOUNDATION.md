@@ -31,6 +31,8 @@ The exact selected versions are centralized in the workspace catalog:
 
 Version checks were made against official [Astro integration](https://docs.astro.build/en/guides/integrations-guide/react/), [Astro styling](https://docs.astro.build/en/guides/styling/), [Cloudflare Workers Vitest](https://developers.cloudflare.com/workers/testing/vitest-integration/), [Supabase CLI](https://supabase.com/docs/guides/cli), [shadcn Base UI](https://ui.shadcn.com/docs/installation/base), and package release/peer metadata on 2026-09-24. Recheck current compatibility before deliberate upgrades.
 
+pnpm blocks dependency lifecycle scripts unless they are explicitly approved. The workspace allows only the reviewed `esbuild` 0.28.1/0.28.2 and `workerd` 1.20260921.1 install scripts required by the current Vite/Cloudflare test toolchain. These exact package-version approvals are in `pnpm-workspace.yaml`; new dependency build scripts remain blocked until reviewed.
+
 ## Install and root commands
 
 ```sh
