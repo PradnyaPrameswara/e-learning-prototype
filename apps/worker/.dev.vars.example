@@ -1,0 +1,6 @@
+# Local Worker variables only. Copy to apps/worker/.dev.vars and replace locally.
+# Never commit credentials. Privileged values belong in Cloudflare Worker secrets.
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_PUBLISHABLE_KEY=replace-with-a-publishable-key
+# SUPABASE_SERVICE_ROLE_KEY is Worker-only and is intentionally omitted.
+# R2 credentials are unnecessary for the configured binding and must not be added here.

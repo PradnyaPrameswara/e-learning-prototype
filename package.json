@@ -1,0 +1,38 @@
+{
+  "name": "e-learning-prototype",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.27.1",
+  "engines": {
+    "node": ">=22.22.3 <23"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "eslint --config eslint.config.mjs scripts && turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "node --test scripts/check-constraints.test.mjs && turbo run test",
+    "check:constraints": "node scripts/check-constraints.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "dev:student": "turbo run dev --filter=@lms/student",
+    "dev:teacher": "turbo run dev --filter=@lms/teacher",
+    "dev:admin": "turbo run dev --filter=@lms/admin",
+    "dev:worker": "turbo run dev --filter=@lms/worker",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:test": "supabase test db",
+    "db:types": "node scripts/generate-database-types.mjs"
+  },
+  "devDependencies": {
+    "@astrojs/compiler": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "prettier-plugin-astro": "catalog:",
+    "prettier-plugin-tailwindcss": "catalog:",
+    "supabase": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:"
+  }
+}

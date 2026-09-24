@@ -1,0 +1,5 @@
+{
+  "name": "@lms/schemas",
+  "private": true,
+  "type": "module"
+}

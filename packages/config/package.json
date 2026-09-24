@@ -1,0 +1,15 @@
+{
+  "name": "@lms/config",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tsconfig/*": "./tsconfig/*",
+    "./eslint": "./eslint.config.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
+    "eslint-plugin-astro": "catalog:",
+    "typescript-eslint": "catalog:"
+  }
+}
