@@ -15,6 +15,7 @@ catalog:
   '@types/react-dom': 19.3.0
   '@typescript-eslint/parser': 8.70.1
   '@cloudflare/vitest-plugin': 1.2.4
+  '@oxlint/plugins': 1.85.0
   eslint: 10.11.0
   eslint-plugin-astro: 3.1.0
   prettier: 3.9.9
@@ -31,6 +32,7 @@ catalog:
   vitest: 4.1.11
   vite: 8.3.0
   wrangler: 4.137.0
+  oxlint: 1.85.0
   zod: 4.6.5
 
 minimumReleaseAgeExclude:
