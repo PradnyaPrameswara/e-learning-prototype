@@ -1,5 +1,12 @@
 {
   "name": "@lms/auth",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@lms/database": "workspace:*",
+    "@supabase/supabase-js": "catalog:"
+  }
 }

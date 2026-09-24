@@ -10,6 +10,13 @@
     "typecheck": "node scripts/run-wrangler.mjs types && tsc --noEmit",
     "test": "node scripts/run-vitest.mjs"
   },
+  "dependencies": {
+    "@lms/auth": "workspace:*",
+    "@lms/database": "workspace:*",
+    "@lms/schemas": "workspace:*",
+    "@supabase/supabase-js": "catalog:",
+    "zod": "catalog:"
+  },
   "devDependencies": {
     "@cloudflare/vitest-plugin": "catalog:",
     "@lms/config": "workspace:*",

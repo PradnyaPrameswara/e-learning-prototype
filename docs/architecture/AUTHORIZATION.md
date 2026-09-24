@@ -44,7 +44,7 @@ Worker mutation handlers follow:
 6. call the one narrow transactional RPC using the user JWT/RLS context where appropriate;
 7. return a minimal safe projection and correlation ID.
 
-The Supabase service-role credential is not a normal query credential. Keep it only for narrowly required server-side Auth Admin operations, never use it for user-data operations without explicit per-user authorization, and never expose it to browser code.
+The Supabase service-role credential is not a normal query credential. Keep it server-only and use it only for narrowly required Auth Admin operations and Worker-only transaction RPCs that enforce the route boundary. For identity mutations, the Worker first authenticates the caller and checks current Admin membership through the user-scoped RLS client; the RPC accepts only the Worker-derived actor ID and rechecks active Admin membership in the same transaction. Grant service_role execution only on the named functions, revoke it from browser roles, and never expose it to browser code. No Worker handler may use the service client for general table reads or writes.
 
 ## 3. Roles and school scope
 
@@ -94,6 +94,20 @@ Direct browser access is allowed only where grants and RLS fully express the com
 | Read school audit history | Admin; scoped Teacher academic history as product permits | Yes only under narrow RLS | Optional | No | Read-only scoped query; do not expose unrelated school/member data |
 
 No direct access is permitted to Supabase Auth admin endpoints, service-role operations, protected answer-key rows, unrestricted database functions, or private R2 credentials.
+
+### Identity and academic-structure operations
+
+| Operation | Browser direct Supabase + RLS | Worker API | Database boundary |
+|---|---:|---:|---|
+| Read own safe profile and current membership/roles | Yes | No | RLS limits rows to the caller; only safe columns are selected |
+| Read school-scoped academic structure | Yes | No | RLS limits Admin to its school, Teacher to assigned Courses and Students to enrolled class/year Courses |
+| Update own display name | Yes | No | Column-level grant plus self-only profile policy |
+| Create academic year, class, subject or Course | No | Yes | Worker verifies current Admin membership, then calls one service_role-only RPC; RPC rechecks actor and commits audit atomically |
+| Grant/revoke role or disable/reactivate membership | No | Yes | Same narrow Worker-only RPC path; actor is derived from verified Supabase Auth identity |
+| Assign/revoke Teacher or enroll/unenroll Student | No | Yes | Same narrow Worker-only RPC path; same-school keys, role checks, uniqueness and audit are database enforced |
+| Direct table insert/update/delete for school administration | No | No | Authenticated and anonymous DML grants are revoked; privileged changes exist only through named RPCs |
+
+The service-role key is configured only as a Cloudflare Worker secret (`SUPABASE_SERVICE_ROLE_KEY`) and is never sent from a browser. The Worker uses the caller's bearer token for identity verification and RLS-scoped Admin lookup; it creates a separate service client only after those checks. The SQL RPC checks the supplied actor against current membership state to close a time-of-check/time-of-use gap. The RPC does not accept an actor ID from request JSON. Authenticated users cannot execute these RPCs directly, even if they are Admins.
 
 ## 5. RLS policy architecture
 
